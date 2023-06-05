@@ -1,0 +1,10 @@
+import React from "react";
+import '../pages/Store.css'
+
+export const Store = () => {
+    return (
+        <div>
+            <h1>Store</h1>
+            </div>
+    )
+}
