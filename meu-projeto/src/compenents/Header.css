@@ -1,0 +1,13 @@
+.pa{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    background-color: brown;
+    justify-content: center;
+    padding: 15px;
+    margin-bottom: 70px;
+}
+a{
+    text-decoration: none;
+    color: aliceblue;
+}

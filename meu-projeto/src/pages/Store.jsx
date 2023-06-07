@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './Store.css';
 import {BsFillCartCheckFill, BsFillCartPlusFill } from 'react-icons/bs'
 import { getItem, setItem } from "../services/LocalStorageFuncs";
-import {Link} from 'react-router-dom';
+import { Header } from "../compenents/Header";
 
 export const Store = () => {
 
@@ -33,15 +33,14 @@ export const Store = () => {
 
     return(
     <div>
-        <Link to = '/cart'>Carrinho</Link>
-        <h1>Store</h1>
+        <Header/>
         <div className="ProductArea">
             {
                 data.map((e)=>(
                     <div className="PA" key={e.id}>
                         <h4>{e.title}</h4>
                         <img src={e.thumbnail} alt="" />
-                        <h4>{e.price}</h4>
+                        <h4>R$ {e.price}</h4>
                         <button className="btn"  onClick={() => handleClick(e) }
                         >
                             {
