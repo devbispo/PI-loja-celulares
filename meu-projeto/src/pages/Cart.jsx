@@ -3,6 +3,7 @@ import '../pages/Cart.css'
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { getItem, setItem } from "../services/LocalStorageFuncs";
 import {BsFillCartDashFill} from 'react-icons/bs'
+import { Header } from "../compenents/Header";
 
 export const Cart = () => {
     const [data , setData] = useState(getItem ('carrinhoYt') || [])
@@ -13,16 +14,15 @@ export const Cart = () => {
     }
     return(
         <div>
-        <Link to ="/">Store</Link>
         <div>
-            <h1>Cart</h1>
+            <Header/>
             <div className="ProductArea">
                 {
                     data.map((e) => (
                         <div className="PA" key= {e.id}>
                         <h4>{e.title}</h4>
                         <img src={e.thumbnail} alt={e.title}/>
-                        <h4>{e.price}</h4>
+                        <h4>R$ {e.price}</h4>
                         <button className="btn"
                         onClick={() => removeItem(e)}>
                             <BsFillCartDashFill />
