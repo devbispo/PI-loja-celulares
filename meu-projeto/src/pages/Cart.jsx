@@ -11,12 +11,17 @@ export const Cart = () => {
         setData(arrFilter)
         setItem('carrinhoYt', arrFilter)
     }
+
+    const subTotal = data.reduce ((acc, cur)=> acc + cur.price, 0)
     return(
         <div>
         <div>
             <Header/>
+            <h3>{`Subtotal : R$ ${subTotal}`}</h3>
             <div className="ProductArea">
-                {
+                {data.length === 0 ? (
+          <p className="carrinho"><h1>Carrinho vazio</h1></p>
+        ) : (
                     data.map((e) => (
                         <div className="PA" key= {e.id}>
                         <h4>{e.title}</h4>
@@ -27,8 +32,8 @@ export const Cart = () => {
                             <BsFillCartDashFill />
                         </button>
                         </div>
-                    ))
-                }
+                  ))
+                  )}
             </div>
         </div>
         </div>
