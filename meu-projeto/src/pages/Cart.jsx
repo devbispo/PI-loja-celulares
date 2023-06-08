@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import '../pages/Cart.css'
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { getItem, setItem } from "../services/LocalStorageFuncs";
 import {BsFillCartDashFill} from 'react-icons/bs'
 import { Header } from "../compenents/Header";
