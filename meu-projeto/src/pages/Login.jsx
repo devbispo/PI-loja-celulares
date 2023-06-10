@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import '../pages/Login.css'
+import {Link} from 'react-router-dom';
 
 export const Login = () => {
     const [username, setUsername] = useState("");
@@ -39,15 +40,20 @@ export const Login = () => {
             />
           </div>
           <div>
-            <label htmlFor="password" className="Pass">Password:</label>
+            <label htmlFor="password" className="Pass">Password :</label>
             <input
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword (e.target.value)}
             />
             {error && <p className="error-text">{error}</p>}
+            <p></p>
           <button type="button" onClick={handleLogin}>Login</button>
+          <br></br>
+            <Link>Esqueceu a Senha?</Link>
+            <br></br>
+            <Link>Cadastre-se</Link>
           
           </div>
         </form>
