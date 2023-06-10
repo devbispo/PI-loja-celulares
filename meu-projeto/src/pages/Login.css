@@ -1,0 +1,16 @@
+.login{
+    display: flex;
+    width: 100%;
+    align-items:center;
+    padding: 15px;
+    font-size: 20px;
+    background-color: rgba(220, 20, 60, 20);
+    margin-top: 240px;
+    flex-direction: column;
+}
+body{
+    background-image: url(../img/Papeis-de-parede-3d.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

@@ -17,7 +17,7 @@ export const Cart = () => {
         <div>
         <div>
             <Header/>
-            <h3>{`Subtotal : R$ ${subTotal}`}</h3>
+            <h3 className="COLOR">{`Subtotal : R$ ${subTotal}`}</h3>
             <div className="ProductArea">
                 {data.length === 0 ? (
           <p className="carrinho"><h1>Carrinho vazio</h1></p>
