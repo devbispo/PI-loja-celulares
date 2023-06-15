@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [erro, setError] = useState("");
   
     const handleLogin = () => {
       // Verifica se os campos estão preenchidos
@@ -47,13 +47,13 @@ export const Login = () => {
               value={password}
               onChange={(e) => setPassword (e.target.value)}
             />
-            {error && <p className="error-text">{error}</p>}
+            {erro && <p className="error-text">{erro}</p>}
             <p></p>
           <button type="button" onClick={handleLogin}>Login</button>
           <br></br>
             <Link>Esqueceu a Senha?</Link>
             <br></br>
-            <Link>Cadastre-se</Link>
+            <Link to ='/register'>Cadastre-se</Link>
           
           </div>
         </form>

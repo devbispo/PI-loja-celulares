@@ -8,6 +8,7 @@ export const Header = () => {
         <div className='pa'>
             <Link to = '/store'>Store</Link>
             <Link to = '/cart'>Cart</Link>
+            <Link to ="/" className="test">Sair</Link>
 
         </div>
     )
