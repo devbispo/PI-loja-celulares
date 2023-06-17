@@ -13,6 +13,8 @@ export const Register = () => {
   function handleSignOut(e) {
     e.preventDefault();
     createUserWithEmailAndPassword(email, password);
+    setEmail("");
+    setPassword("");
   }
 
   if (loading) {
