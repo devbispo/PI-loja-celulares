@@ -9,12 +9,27 @@ export const Register = () => {
     const [email, setEmail] = useState("");
     const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+    const [registrationCompleted, setRegistrationCompleted] = useState(false);
+
 
   function handleSignOut(e) {
     e.preventDefault();
-    createUserWithEmailAndPassword(email, password);
-    setEmail("");
-    setPassword("");
+  
+    if (!email || !password) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+    
+    createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        setRegistrationCompleted(true);
+        setEmail("");
+        setPassword("");
+      })
+      .catch((error) => {
+        // Lidar com erros de registro, se necessário
+        console.log(error);
+      });
   }
 
   if (loading) {
@@ -23,6 +38,9 @@ export const Register = () => {
     return (
       <div className="register">
         <h2>Register</h2>
+      {registrationCompleted && (
+        <p>Cadastro realizado com sucesso!</p>
+      )}
         <form>
           <div>
             <label htmlFor="email" className="Email"> Email <br></br></label>
