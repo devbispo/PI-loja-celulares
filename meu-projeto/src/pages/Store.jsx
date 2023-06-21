@@ -3,6 +3,7 @@ import './Store.css';
 import {BsFillCartCheckFill, BsFillCartPlusFill } from 'react-icons/bs'
 import { getItem, setItem } from "../services/LocalStorageFuncs";
 import { Header } from "../compenents/Header";
+import { MyCarousel } from "../compenents/MyCarousel";
 
 export const Store = () => {
 
@@ -35,6 +36,7 @@ export const Store = () => {
     <div>
         <Header/>
         <div className="ProductArea">
+        <MyCarousel/>
             {
                 data.map((e)=>(
                     <div className="PA" key={e.id}>
