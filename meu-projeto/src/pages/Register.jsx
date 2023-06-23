@@ -44,7 +44,7 @@ export const Register = () => {
       )}
         <form>
           <div>
-            <label htmlFor="email" className="Email"> Email <br></br></label>
+            <label htmlFor="email" className="Email"> Usuário: <br></br></label>
             <input
             type="email"
             id="email"
@@ -53,7 +53,7 @@ export const Register = () => {
             />
             </div>
           <div>
-            <label htmlFor="password" className="Pass">Password :<br></br></label>
+            <label htmlFor="password" className="Pass">Senha:<br></br></label>
             <input
               type="password"
               id="password"

@@ -1,55 +1,53 @@
 import React, { useState } from "react";
 import '../pages/Login.css'
 import {Link} from 'react-router-dom';
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../services/FireBaseConfig";
 
 export const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [erro, setError] = useState("");
-  
-    const handleLogin = () => {
-      // Verifica se os campos estão preenchidos
-      if (!username || !password) {
-        setError ("Por favor, preencha todos os campos.");
-        
-        return;
-      }
-  
-      // Aqui você pode adicionar a lógica para autenticar o usuário
-      // por exemplo, enviar os dados para um servidor ou verificar em algum lugar localmente.
-      console.log("Username:", username);
-      console.log("Password:", password);
-  
-      // Limpa os campos e a mensagem de erro após o login
-      setUsername("");
-      setPassword("");
-      setError("");
-    };
-  
-    return (
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
+
+  function handleSignIn(e) {
+    e.preventDefault();
+    signInWithEmailAndPassword(email, password);
+  }
+
+  if (loading) {
+    return <p>carregando...</p>;
+  }
+  if (user) {
+    return console.log(user);
+  }
+  return (
       <div className="login">
         <h2>Login</h2>
         <form>
           <div>
-            <label htmlFor="username" className="User">Username:</label>
+            <label htmlFor="email">Username:</label>
             <input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              name="email"
+              id="email"
+              placeholder="Digite seu Email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
-            <label htmlFor="password" className="Pass">Password :</label>
+            <label htmlFor="password">Password :</label>
             <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword (e.target.value)}
+             type="password"
+             name="password"
+             id="password"
+             placeholder="Digite sua senha"
+             onChange={(e) => setPassword(e.target.value)}
             />
-            {erro && <p className="error-text">{erro}</p>}
+            {error && <p className="error-text">{error}</p>}
             <p></p>
-          <button type="button" onClick={handleLogin}>Login</button>
+          <button type="button" onClick={handleSignIn}>Login</button>
           <br></br>
             <Link>Esqueceu a Senha?</Link>
             <br></br>
