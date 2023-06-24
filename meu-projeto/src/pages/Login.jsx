@@ -4,16 +4,17 @@ import {Link, useHistory} from 'react-router-dom';
 import { SignIn } from "../services/AuthServices";
 
 
+
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useHistory();
+  const history  = useHistory();
 
  async function handleSignIn(e) {
     e.preventDefault();
     try {
       await SignIn(email, password)
-      navigate.push("/")
+      history.push("/store")
     } catch (error) {
       console.log("erro")
     }
