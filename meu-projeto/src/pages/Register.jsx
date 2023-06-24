@@ -1,47 +1,25 @@
 import React, { useState, } from "react";
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import '../pages/Register.css'
-import { auth } from "../services/FireBaseConfig";
 import {Link} from 'react-router-dom';
+import { Create } from "../services/AuthServices";
 
 
 export const Register = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
-    const [registrationCompleted, setRegistrationCompleted] = useState(false);
-
 
   function handleSignOut(e) {
     e.preventDefault();
+    Create(email, password);
   
     if (!email || !password) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
-    
-    createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        setRegistrationCompleted(true);
-        setEmail("");
-        setPassword("");
-      })
-      .catch((error) => {
-        // Lidar com erros de registro, se necessário
-        console.log(error);
-      });
-  }
-
-  if (loading) {
-    return <p><h1>Carregando...</h1></p>;
   }
     return (
       <div className="register">
         <h2>Register</h2>
-      {registrationCompleted && (
-        <p>Cadastro realizado com sucesso!</p>
-      )}
         <form>
           <div>
             <label htmlFor="email" className="Email"> Usuário: <br></br></label>

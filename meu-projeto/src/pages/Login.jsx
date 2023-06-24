@@ -1,26 +1,22 @@
 import React, { useState } from "react";
 import '../pages/Login.css'
-import {Link} from 'react-router-dom';
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "../services/FireBaseConfig";
+import {Link, useHistory} from 'react-router-dom';
+import { SignIn } from "../services/AuthServices";
+
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useHistory();
 
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
-
-  function handleSignIn(e) {
+ async function handleSignIn(e) {
     e.preventDefault();
-    signInWithEmailAndPassword(email, password);
-  }
-
-  if (loading) {
-    return <p>carregando...</p>;
-  }
-  if (user) {
-    return console.log(user);
+    try {
+      await SignIn(email, password)
+      navigate.push("/")
+    } catch (error) {
+      console.log("erro")
+    }
   }
   return (
       <div className="login">
@@ -45,7 +41,7 @@ export const Login = () => {
              placeholder="Digite sua senha"
              onChange={(e) => setPassword(e.target.value)}
             />
-            {error && <p className="error-text">{error}</p>}
+            {/*error && <p className="error-text">{error}</p>*/}
             <p></p>
           <button type="button" onClick={handleSignIn}>Login</button>
           <br></br>
