@@ -1,11 +1,10 @@
 import { createContext, useState } from 'react'
-import { SignIn, logout } from '../services/AuthService'
-
+import { SignIn, Logout } from '../services/AuthServices'
 const UserContext = createContext({
   userId: null,
   logado: false,
   SignIn: () => { },
-  Logout: () => { },
+  logout: () => { },
 })
 
 export function UserContextProvider(props) {
@@ -22,7 +21,7 @@ export function UserContextProvider(props) {
   }
 
   async function handleLogout() {
-    await logout()
+    await Logout()
     setCurrentUser({ userId: null, logado: false })
   }
 

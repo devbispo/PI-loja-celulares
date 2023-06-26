@@ -21,7 +21,7 @@ export const Store = () => {
     }, [])
 
     const handleClick = (obj) => {
-        const element = cart.find((e) => e.id == obj.id)
+        const element = cart.find((e) => e.id === obj.id)
         if(element) {
             const arrFilter = cart.filter((e) => e.id !== obj.id )
             setCart(arrFilter)
@@ -46,7 +46,7 @@ export const Store = () => {
                         <button className="btn"  onClick={() => handleClick(e) }
                         >
                             {
-                                cart.some((itemCart) => itemCart.id == e.id  ) ? (
+                                cart.some((itemCart) => itemCart.id === e.id  ) ? (
                                     <BsFillCartCheckFill/>
                                 ) : (
                                     <BsFillCartPlusFill/>

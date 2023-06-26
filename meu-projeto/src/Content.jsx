@@ -6,6 +6,7 @@ import {Login} from './pages/Login'
 import {Register} from './pages/Register'
 
 export const Content = () => {
+    
     return(
         <Switch>
             <Route exact path='/' component={Login}/>
