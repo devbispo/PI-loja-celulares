@@ -1,41 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import "../pages/Register.css";
 import { Link } from "react-router-dom";
 import { Create } from "../services/AuthServices";
+import { useForm } from "react-hook-form";
 
 export const Register = () => {
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [success, setSuccess] = React.useState(false);
 
-  function handleSignUp(e) {
-    e.preventDefault();
-
-    if (!email || !password) {
-      alert("Por favor, preencha todos os campos.");
-      return;
+  const onSubmit = async (data) => {
+    try {
+      await Create(data.email, data.password);
+      setSuccess(true);
+      reset();
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
     }
-    if (!isValidEmail(email)) {
-      setEmailError("Por favor, digite um e-mail válido.");
-      return;
-    }
-    if (password.length < 6) {
-      setPasswordError("A senha deve ter pelo menos 6 caracteres.");
-      return;
-    }
-
-    Create(email, password);
-  }
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+  };
 
   return (
     <div className="register">
       <h2>Register</h2>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="email" className="Email">
             Usuário: <br />
@@ -43,10 +29,9 @@ export const Register = () => {
           <input
             type="email"
             id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
           />
-          {emailError && <p className="error-text">{emailError}</p>}
+          {errors.email && <p className="error-text">Por favor, digite um e-mail válido.</p>}
         </div>
         <div>
           <label htmlFor="password" className="Pass">
@@ -55,18 +40,17 @@ export const Register = () => {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password", { required: true, minLength: 6 })}
           />
-          {passwordError && <p className="error-text">{passwordError}</p>}
+          {errors.password && <p className="error-text">A senha deve ter pelo menos 6 caracteres.</p>}
           <p></p>
-          <button type="button" onClick={handleSignUp}>
-            Register
-          </button>
+          {success && <p>Cadastro realizado com sucesso!</p>}
+          <button type="submit">Register</button>
           <br />
           <Link to="/">Voltar</Link>
         </div>
       </form>
+      
     </div>
   );
 };

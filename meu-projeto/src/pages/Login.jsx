@@ -1,28 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { SignIn } from "../services/AuthServices";
 import "../pages/Login.css";
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const { handleSubmit, register, formState: { errors } } = useForm();
+  const [error, setError] = React.useState("");
   const history = useHistory();
 
-  async function handleSignIn(e) {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
-      await SignIn(email, password);
+      await SignIn(data.email, data.password);
       history.push("/store");
     } catch (error) {
       setError("Ocorreu um erro ao fazer login. Por favor, tente novamente.");
     }
-  }
+  };
 
   return (
     <div className="login">
       <h2>Login</h2>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="email">Username:</label>
           <input
@@ -30,9 +29,9 @@ export const Login = () => {
             name="email"
             id="email"
             placeholder="Digite seu Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", { required: true })}
           />
+          {errors.email && <p className="error-text">Campo obrigatório.</p>}
         </div>
         <div>
           <label htmlFor="password">Password:</label>
@@ -41,12 +40,12 @@ export const Login = () => {
             name="password"
             id="password"
             placeholder="Digite sua senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password", { required: true })}
           />
+          {errors.password && <p className="error-text">Campo obrigatório.</p>}
           {error && <p className="error-text">{error}</p>}
         </div>
-        <button type="button" onClick={handleSignIn}>
+        <button type="submit">
           Login
         </button>
         <br />
