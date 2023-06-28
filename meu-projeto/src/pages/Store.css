@@ -1,15 +1,15 @@
 .ProductArea{
     display: flex;
-    gap: 50px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-bottom: 70px;
+    border-radius: 20px;
+    padding: 15px;
 }
 .PA{
     height: 320px;
     width: 230px;
-    border: 1px solid rgb(194, 193, 193);
+
     display: flex;
     justify-content: space-between;
     flex-direction: column;

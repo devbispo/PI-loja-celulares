@@ -1,70 +1,56 @@
-import React, { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import '../pages/Register.css'
-import { auth } from "../services/FireBaseConfig";
-
+import React from "react";
+import "../pages/Register.css";
+import { Link } from "react-router-dom";
+import { Create } from "../services/AuthServices";
+import { useForm } from "react-hook-form";
 
 export const Register = () => {
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
-    const [registrationCompleted, setRegistrationCompleted] = useState(false);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [success, setSuccess] = React.useState(false);
 
-
-  function handleSignOut(e) {
-    e.preventDefault();
-  
-    if (!email || !password) {
-      alert("Por favor, preencha todos os campos.");
-      return;
+  const onSubmit = async (data) => {
+    try {
+      await Create(data.email, data.password);
+      setSuccess(true);
+      reset();
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
     }
-    
-    createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        setRegistrationCompleted(true);
-        setEmail("");
-        setPassword("");
-      })
-      .catch((error) => {
-        // Lidar com erros de registro, se necessário
-        console.log(error);
-      });
-  }
+  };
 
-  if (loading) {
-    return <p><h1>Carregando...</h1></p>;
-  }
-    return (
-      <div className="register">
-        <h2>Register</h2>
-      {registrationCompleted && (
-        <p>Cadastro realizado com sucesso!</p>
-      )}
-        <form>
-          <div>
-            <label htmlFor="email" className="Email"> Email <br></br></label>
-            <input
+  return (
+    <div className="register">
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="email" className="Email">
+            Usuário: <br />
+          </label>
+          <input
             type="email"
             id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            />
-            </div>
-          <div>
-            <label htmlFor="password" className="Pass">Password :<br></br></label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword (e.target.value)}
-            />
-           
-            <p></p>
-          <button type="button" onClick={handleSignOut}>Register</button>
-          
-          </div>
-        </form>
-      </div>
-    );
-}
+            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+          />
+          {errors.email && <p className="error-text">Por favor, digite um e-mail válido.</p>}
+        </div>
+        <div>
+          <label htmlFor="password" className="Pass">
+            Senha:<br />
+          </label>
+          <input
+            type="password"
+            id="password"
+            {...register("password", { required: true, minLength: 6 })}
+          />
+          {errors.password && <p className="error-text">A senha deve ter pelo menos 6 caracteres.</p>}
+          <p></p>
+          {success && <p>Cadastro realizado com sucesso!</p>}
+          <button type="submit">Register</button>
+          <br />
+          <Link to="/">Voltar</Link>
+        </div>
+      </form>
+      
+    </div>
+  );
+};

@@ -1,62 +1,59 @@
-import React, { useState } from "react";
-import '../pages/Login.css'
-import {Link} from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import UserContext from '../contexts/UserContext'
+import "../pages/Login.css";
 
 export const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [erro, setError] = useState("");
-  
-    const handleLogin = () => {
-      // Verifica se os campos estão preenchidos
-      if (!username || !password) {
-        setError ("Por favor, preencha todos os campos.");
-        
-        return;
-      }
-  
-      // Aqui você pode adicionar a lógica para autenticar o usuário
-      // por exemplo, enviar os dados para um servidor ou verificar em algum lugar localmente.
-      console.log("Username:", username);
-      console.log("Password:", password);
-  
-      // Limpa os campos e a mensagem de erro após o login
-      setUsername("");
-      setPassword("");
-      setError("");
-    };
-  
-    return (
-      <div className="login">
-        <h2>Login</h2>
-        <form>
-          <div>
-            <label htmlFor="username" className="User">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="Pass">Password :</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword (e.target.value)}
-            />
-            {erro && <p className="error-text">{erro}</p>}
-            <p></p>
-          <button type="button" onClick={handleLogin}>Login</button>
-          <br></br>
-            <Link>Esqueceu a Senha?</Link>
-            <br></br>
-            <Link to ='/register'>Cadastre-se</Link>
-          
-          </div>
-        </form>
-      </div>
-    );
-}
+  const { handleSubmit, register, formState: { errors } } = useForm();
+  const [error, setError] = React.useState("");
+  const history = useHistory();
+  const { handleLogin } = useContext(UserContext)
+
+  const onSubmit = async (data) => {
+    try {
+      await handleLogin(data.email, data.password);
+      history.push("/store");
+    } catch (error) {
+      setError("Ocorreu um erro ao fazer login. Por favor, tente novamente");
+    }
+  };
+
+  return (
+    <div className="login">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="email">Username:</label>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="Digite seu Email"
+            {...register("email", { required: true })}
+          />
+          {errors.email && <p className="error-text">Campo obrigatório.</p>}
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Digite sua senha"
+            {...register("password", { required: true })}
+          />
+          {errors.password && <p className="error-text">Campo obrigatório.</p>}
+          {error && <p className="error-text">{error}</p>}
+        </div>
+        <button type="submit">
+          Login
+        </button>
+        <br />
+        <Link to="/">Esqueceu a Senha?</Link>
+        <br />
+        <Link to="/register">Cadastre-se</Link>
+      </form>
+    </div>
+  );
+};
