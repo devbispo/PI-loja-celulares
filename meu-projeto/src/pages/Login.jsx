@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { SignIn } from "../services/AuthServices";
+import UserContext from '../contexts/UserContext'
 import "../pages/Login.css";
 
 export const Login = () => {
   const { handleSubmit, register, formState: { errors } } = useForm();
   const [error, setError] = React.useState("");
   const history = useHistory();
+  const { handleLogin } = useContext(UserContext)
 
   const onSubmit = async (data) => {
     try {
-      await SignIn(data.email, data.password);
+      await handleLogin(data.email, data.password);
       history.push("/store");
     } catch (error) {
-      setError("Ocorreu um erro ao fazer login. Por favor, tente novamente.");
+      setError("Ocorreu um erro ao fazer login. Por favor, tente novamente");
     }
   };
 
