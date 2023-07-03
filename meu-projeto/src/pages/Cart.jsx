@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../pages/Cart.css'
 import { getItem, setItem } from "../services/LocalStorageFuncs";
 import {BsFillCartDashFill} from 'react-icons/bs'
 import { Header } from "../compenents/Header";
+import { db } from "../services/FireBaseConfig";
+import { deleteDoc, doc, collection } from "firebase/firestore";
+
 
 export const Cart = () => {
     const [data , setData] = useState(getItem ('carrinhoYt') || [])
+        useEffect(() => {
+        setData(getItem('carrinhoYt') || []);
+      }, []);
     const removeItem = (obj) =>{
         const arrFilter = data.filter((e)=>e.id !== obj.id)
         setData(arrFilter)
