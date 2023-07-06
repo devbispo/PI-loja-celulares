@@ -8,11 +8,14 @@ export const Login = () => {
   const { handleSubmit, register, formState: { errors } } = useForm();
   const [error, setError] = React.useState("");
   const history = useHistory();
-  const { handleLogin } = useContext(UserContext)
+  const { handleLogin } = useContext(UserContext);
 
+  // Função que é chamada ao submeter o formulário de login
   const onSubmit = async (data) => {
     try {
+      // Chama a função de login do contexto do usuário
       await handleLogin(data.email, data.password);
+      // Redireciona para a página de loja após o login bem-sucedido
       history.push("/store");
     } catch (error) {
       setError("Ocorreu um erro ao fazer login. Por favor, tente novamente");
