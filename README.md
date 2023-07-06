@@ -9,6 +9,6 @@ Matricula: 2114290020
 Introdução do projeto. <br></br>
 Bem-vindo(a) à nossa loja de celulares! Nossa plataforma oferece uma ampla seleção de Smartphones, obtidos através da integração com a API do Mercado Livre. Com a nossa loja, você pode explorar diferentes modelos, comparar preços e encontrar o celular perfeito para suas necessidades.
 
-Para proporcionar uma experiência completa aos nossos usuários, implementamos um sistema de autenticação seguro. Ao criar uma conta em nossa loja, você terá acesso a recursos exclusivos, como a possibilidade de adicionar produtos ao carrinho, salvar itens favoritos e realizar compras de forma conveniente.
+Para proporcionar uma experiência completa ao usuário, implementamos um sistema de autenticação seguro. Ao criar uma conta em nossa loja, o usuário terá acesso a recursos exclusivos, como a possibilidade de adicionar produtos ao carrinho, salvar itens favoritos e realizar compras de forma conveniente.
 
-Após escolher seu celular desejado e confirmar a compra, utilizamos o Firebase Firestore para armazenar as informações da transação. Isso nos permite manter um registro detalhado de todas as compras realizadas em nossa plataforma, garantindo segurança e precisão nos dados.
+Após escolher o celular desejado e confirmar a compra, utilizamos o Firebase Firestore para armazenar as informações da transação. Isso nos permite manter um registro detalhado de todas as compras realizadas em nossa plataforma, garantindo segurança e precisão nos dados.
