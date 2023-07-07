@@ -13,10 +13,10 @@ export function UserContextProvider(props) {
 
   async function handleLogin(email, password) {
     try {
-      const id = await SignIn(email, password)
-      setCurrentUser({ userId: id, logado: true })
+      const id = await SignIn(email, password);
+      setCurrentUser({ userId: id, logado: true, email: email }); // Atualize o valor do email ao fazer o login
     } catch (error) {
-      throw Error(error.message)
+      throw new Error(error.message);
     }
   }
 
