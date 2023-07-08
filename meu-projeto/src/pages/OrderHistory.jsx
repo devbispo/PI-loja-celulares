@@ -27,8 +27,10 @@ export const OrderHistory = () => {
     <div>
       <Header />
       <div className="ProductArea">
-        <h2>Histórico de Compras</h2>
-        {orders.length === 0 ? (
+      <p><h2>Histórico de Compras</h2></p>
+      </div>
+      <div className="ProductArea">
+      {orders.length === 0 ? (
           <p>Não há compras registradas.</p>
         ) : (
           <ul>
@@ -40,17 +42,13 @@ export const OrderHistory = () => {
                 <ul>
                   {order.items.map((item, itemIndex) => (
                     <li key={itemIndex}>
-                      <p>Título: {item.title}</p>
+                      <p>{item.title}</p>
+                      <img src={item.thumbnail} alt={item.title} />
                       <p>Preço: R$ {item.price}</p>
                     </li>
                   ))}
                 </ul>
-
                 <h4>Subtotal: R$ {order.subtotal}</h4>
-                
-                {order.userId && (
-                  <p>Email do comprador: {order.userId}</p>
-                )}
               </li>
             ))}
           </ul>
