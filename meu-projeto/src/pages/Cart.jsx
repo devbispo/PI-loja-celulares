@@ -1,53 +1,50 @@
-import React, { useState, useEffect } from "react";
 import "../pages/Cart.css";
+import React, { useState, useEffect } from "react";
 import { getItem, setItem } from "../services/LocalStorageFuncs";
 import { BsFillCartDashFill } from "react-icons/bs";
 import { Header } from "../compenents/Header";
 import { db } from "../services/FireBaseConfig";
 import { addDoc, collection } from "firebase/firestore";
-import { useHistory } from "react-router-dom";
 
 export const Cart = () => {
   const [data, setData] = useState(getItem("carrinhoYt") || []);
-  const history = useHistory();
+  const [purchaseComplete, setPurchaseComplete] = useState(false); 
 
   useEffect(() => {
     setData(getItem("carrinhoYt") || []);
   }, []);
 
-  // Função para remover um item do carrinho
   const removeItem = (obj) => {
     const arrFilter = data.filter((e) => e.id !== obj.id);
     setData(arrFilter);
     setItem("carrinhoYt", arrFilter);
   };
 
-  // Cálculo do valor total do carrinho
   const subTotal = data.reduce((acc, cur) => acc + cur.price, 0);
 
-  // Função para adicionar os itens ao Firestore e finalizar a compra
   const handleCheckout = async () => {
     try {
       const cartCollection = collection(db, "carrinhoYt");
-      for (const item of data) {
-        await addDoc(cartCollection, item);
-      }
+      const itemsToAdd = data.map((item) => ({
+        id: item.id,
+        title: item.title,
+        thumbnail: item.thumbnail,
+        price: item.price,
+      }));
+      
+      const subtotal = data.reduce((acc, cur) => acc + cur.price, 0);
+      const orderData = { items: itemsToAdd, subtotal };
+      
+      await addDoc(cartCollection, orderData);
+      
       console.log("Itens adicionados ao Firestore com sucesso!");
 
-      // Limpar o carrinho local após adicionar ao Firestore
       setItem("carrinhoYt", []);
       setData([]);
+      setPurchaseComplete(true); // Atualiza o estado para indicar que a compra foi realizada
 
-      if (data.length > 0) {
-        // Exibir alerta apenas se o carrinho não estiver vazio
-        alert("Compra realizada com sucesso!");
-
-        // Redirecionar para a página Store após compra ser finalizada.
-        history.push("/store");
-      }
     } catch (error) {
       console.error("Erro ao adicionar itens ao Firestore:", error);
-      // Lidar com o erro de adição ao Firestore aqui
     }
   };
 
@@ -60,6 +57,7 @@ export const Cart = () => {
           {data.length === 0 ? (
             <p className="carrinho">
               <h1>Carrinho vazio</h1>
+              {purchaseComplete && <p>Compra realizada com sucesso!</p>} 
             </p>
           ) : (
             data.map((e) => (
@@ -75,9 +73,12 @@ export const Cart = () => {
           )}
         </div>
         <h3 className="COLOR">{`Valor total : R$ ${subTotal}`}</h3>
-        <button className="onClick" onClick={handleCheckout}>
+      
+        <button className="onClick" onClick={handleCheckout} disabled={data.length === 0}>
           Finalizar compra
         </button>
+
+        
       </div>
     </div>
   );

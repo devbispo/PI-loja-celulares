@@ -29,7 +29,7 @@ export const Login = () => {
         <div>
           <label htmlFor="email">Username:</label>
           <input
-            type="text"
+            type="email"
             name="email"
             id="email"
             placeholder="Digite seu Email"
